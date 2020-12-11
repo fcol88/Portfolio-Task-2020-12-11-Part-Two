@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Task list{% endblock %}
+
+{% block content %}
+
+    <h2>Task List (
+        {% if showAll == True %}
+            <a href="/tasklist">Show Active</a>
+        {% else %}
+            <a href="/tasklist?showAll">Show All</a>
+        {% endif %}
+    )
+    </h2>
+
+    <table id="taskList">
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Assignee</th>
+                <th>Created</th>
+                {% if showAll == True %}
+                    <th>Completed</th>
+                {% endif %}
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+                {% if task.status != 'Done' or showAll == True %}
+                    <tr>
+                        <td>{{ task.description }}</td>
+                        <td>{{ task.status }}</td>
+                        <td>{{ task.user.firstName + ' ' + task.user.lastName }}</td>
+                        <td>{{ task.created.strftime('%d/%m/%Y') }}</td>
+                        {% if showAll == True %}
+                            <td>{% if task.completed is not none %}
+                                    {{ task.completed.strftime('%d/%m/%Y %H:%M') }}
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </td>
+                        {% endif %}
+                        <td class="action">
+                            {% if task.status != 'Done' %}
+                                <a class="btn btn-secondary" id="completeLink{{loop.index}}" href="/completetask?id={{task.id}}">Mark as done</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+
+    </table>
+
+    <a class="btn" href="/addtask" id="addTask">Add task</a>
+
+    <a class="btn btn-secondary" href="/adduser" id="addUser">Add user</a>
+
+{% endblock %}

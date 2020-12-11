@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/main.css"/>
+    <title>{% block title %}{% endblock%} - Task List Application</title>
+    {% endblock %}
+</head>
+<body>
+    <div id="content" class="maincontent">
+        
+        <h1>Task List Application</h1>
+
+        {% block content %}{% endblock %}
+    
+    </div>
+    {% block scripts %}{% endblock %}
+</body>
+</html>
